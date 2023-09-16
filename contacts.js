@@ -23,6 +23,7 @@ const removeContact = async (contactId) => {
 
 const addContact = async (name, email, phone) => {
   const data = await listContacts();
+  console.log(data);
   const newContact = {
     id: v4(),
     name,
