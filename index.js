@@ -2,7 +2,6 @@ const contacts = require("./contacts");
 
 const argv = require("yargs").argv;
 
-// TODO: рефакторити
 const invokeAction = async ({ action, id, name, email, phone }) => {
   switch (action) {
     case "list":
@@ -22,7 +21,8 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
       break;
 
     case "remove":
-      // ... id
+      const removedContact = await contacts.removeContact(id);
+      return console.log(removedContact);
       break;
 
     default:
@@ -30,11 +30,4 @@ const invokeAction = async ({ action, id, name, email, phone }) => {
   }
 };
 
-// invokeAction({ action: "list" });
-// invokeAction({ action: "get", id: "drsAJ4SHPYqZeG-83QTVW" });
-invokeAction({
-  action: "add",
-  name: "Mango",
-  email: " mango@gmail.com",
-  phone: "322-22-22",
-});
+invokeAction(argv);

@@ -11,19 +11,25 @@ const listContacts = async () => {
 
 const getContactById = async (contactId) => {
   const data = await listContacts();
-  const filteredContact = data.find((contact) => (contact.id = contactId));
+  const filteredContact = data.find((contact) => contact.id === contactId);
   return filteredContact || null;
-  // ...твій код. Повертає об'єкт контакту з таким id. Повертає null, якщо контакт з таким id не знайдений.
 };
 
 const removeContact = async (contactId) => {
-  // const data = await listContacts();
-  // const deletedContact = data.splice();
+  const data = await listContacts();
+  const index = data.findIndex((item) => item.id === contactId);
+  if (index === -1) {
+    return null;
+  }
+  const [result] = data.splice(index, 1);
+  await fs.writeFile(contactsPath, JSON.stringify(data, null, 2));
+
+  return result;
 };
 
 const addContact = async (name, email, phone) => {
   const data = await listContacts();
-  console.log(data);
+
   const newContact = {
     id: v4(),
     name,
@@ -31,7 +37,8 @@ const addContact = async (name, email, phone) => {
     phone,
   };
   data.push(newContact);
-  await fs.writeFile(contactsPath, JSON.stringify(newContact));
+  await fs.writeFile(contactsPath, JSON.stringify(data, null, 2));
+
   return newContact;
 };
 
